@@ -1,0 +1,16 @@
+{{- if .Values.certificate.enabled }}
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: {{ template "application.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/hook: PreSync # pre sync stage
+spec:
+  secretName: {{ template "application.fullname" . }}-secret
+  dnsNames:
+  - {{ .Values.certificate.domain }}
+  issuerRef:
+    name: {{ .Values.certificate.issuer }}
+    kind: ClusterIssuer
+{{- end }}

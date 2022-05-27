@@ -1,0 +1,25 @@
+{{ if }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: elite
+  namespace: elite
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: elite.test.muxixyz.com
+    http:
+      paths:
+      - path: /api
+        backend:
+          serviceName: elite-backend
+          servicePort: 8080
+      - path: /
+        backend:
+          serviceName: fe
+          servicePort: 3000
+  tls:
+  - hosts:
+    - elite.test.muxixyz.com
+    secretName: elite-secret
